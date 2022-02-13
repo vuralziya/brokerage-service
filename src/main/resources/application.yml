@@ -1,0 +1,76 @@
+spring:
+  application:
+    name: brokerage-service
+  jackson:
+    default-property-inclusion: non_null
+    deserialization:
+      fail-on-unknown-properties: false
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+  lifecycle:
+    timeout-per-shutdown-phase: 10s
+
+server:
+  port: 8001
+  compression:
+    enabled: true
+  http2:
+    enabled: true
+  shutdown: graceful
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,prometheus,info
+  endpoint:
+    health:
+      show-details: always
+      group:
+        readiness:
+          include: readinessState,couchbase,kafka
+        liveness:
+          include: livenessState
+      probes:
+        enabled: true
+  health:
+    diskspace:
+      enabled: false
+
+
+kafka:
+  bootstrapServers: kafka:9092
+  topicPrefix: brokerage-service
+  acks: 1
+  consumers:
+    groupId: brokerage-service
+    buy-order-request-received-event:
+      topic: ${kafka.topicPrefix}.buy.order.request.received
+    sell-order-request-received-event:
+      topic: ${kafka.topicPrefix}.sell.order.request.received
+    cancel-order-request-received-event:
+      topic: ${kafka.topicPrefix}.cancel.order.request.received
+    order-created-as-initial-event:
+      topic: ${kafka.topicPrefix}.order.created.as.initial
+    order-added-to-user-event:
+      topic: ${kafka.topicPrefix}.order.added.to.user
+    reservation-completed-event:
+      topic: ${kafka.topicPrefix}.reservation.completed
+    reservation-removed-because-of-selling-event:
+      topic: ${kafka.topicPrefix}.reservation.removed.because.of.selling
+    order-completed-event:
+      topic: ${kafka.topicPrefix}.order.completed
+    order-selling-started-event:
+      topic: ${kafka.topicPrefix}.order.selling.started
+    order-sold-event:
+      topic: ${kafka.topicPrefix}.order.sold
+
+couchbase:
+  hosts: ${COUCHBASE_HOST:localhost}
+  username: Administrator
+  password: password
+  bucketName: Brokerage
+  kvTimeout: 3000
+  connectTimeout: 15000
+  queryTimeout: 5000
+  viewTimeout: 5000
