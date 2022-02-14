@@ -34,6 +34,19 @@ class User private constructor(
             user.registerEvent(UserCreated(id))
             return user
         }
+
+        fun from(
+            id: String,
+            name: String,
+            lastName: String,
+            identityNumber: Long,
+            citizen: String,
+            orders: List<String>
+        ): User {
+            val user = User(id, name, lastName, identityNumber, citizen)
+            user.orders = orders.toMutableList()
+            return user
+        }
     }
 
     fun addOrder(orderId: String) {

@@ -2,6 +2,9 @@ package com.zv.brokerageservice.infrastructure.messaging
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.apache.kafka.clients.consumer.ConsumerConfig
+import org.apache.kafka.clients.consumer.ConsumerRecord
+import org.apache.kafka.common.TopicPartition
+import org.apache.kafka.common.header.Headers
 import org.apache.kafka.common.serialization.StringDeserializer
 import org.slf4j.LoggerFactory
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -12,7 +15,11 @@ import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory
 import org.springframework.kafka.core.ConsumerFactory
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory
 import org.springframework.kafka.core.KafkaTemplate
+import org.springframework.kafka.listener.DeadLetterPublishingRecoverer
+import org.springframework.kafka.listener.SeekToCurrentErrorHandler
 import org.springframework.kafka.support.converter.StringJsonMessageConverter
+import org.springframework.util.backoff.FixedBackOff
+import java.nio.charset.StandardCharsets
 
 @EnableKafka
 @Configuration
@@ -21,8 +28,6 @@ class KafkaConsumerConfiguration(
     private val kafkaProperties: KafkaProperties,
     private val objectMapper: ObjectMapper
 ) {
-
-    private val logger = LoggerFactory.getLogger(javaClass)
 
     @Bean
     fun kafkaListenerContainerFactory(kafkaTemplate: KafkaTemplate<String, Any>): ConcurrentKafkaListenerContainerFactory<String, String> {
@@ -43,10 +48,6 @@ class KafkaConsumerConfiguration(
         props[ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG] = StringDeserializer::class.java
         props[ConsumerConfig.AUTO_OFFSET_RESET_CONFIG] = "latest"
         props[ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG] = true
-        props[ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG] = "5000"
-        props[ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG] = "45000"
-        props[ConsumerConfig.HEARTBEAT_INTERVAL_MS_CONFIG] = "3000"
-        props[ConsumerConfig.ALLOW_AUTO_CREATE_TOPICS_CONFIG] = false
         return props
     }
 

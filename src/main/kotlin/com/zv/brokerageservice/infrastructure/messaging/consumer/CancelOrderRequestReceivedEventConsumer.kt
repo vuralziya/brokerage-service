@@ -2,7 +2,6 @@ package com.zv.brokerageservice.infrastructure.messaging.consumer
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.trendyol.kediatr.CommandBus
-import com.zv.brokerageservice.application.notification.BuyOrderRequestReceived
 import com.zv.brokerageservice.application.notification.CancelOrderRequestReceived
 import com.zv.brokerageservice.infrastructure.messaging.KafkaConsumerConfiguration
 import kotlinx.coroutines.runBlocking

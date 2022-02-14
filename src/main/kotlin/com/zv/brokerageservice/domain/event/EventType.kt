@@ -14,7 +14,8 @@ enum class EventType(val value: String) {
     ORDER_SELLING_STARTED("order.selling.started"),
     ORDER_CANCELLING_STARTED("order.cancelling.started"),
     ORDER_SOLD("order.sold"),
-    ORDER_CANCELLED("order.cancelled");
+    ORDER_CANCELLED("order.cancelled"),
+    STOCK_CREATED("stock.created");
 
     override fun toString(): String = this.value
 }

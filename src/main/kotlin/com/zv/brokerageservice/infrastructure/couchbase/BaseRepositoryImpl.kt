@@ -8,6 +8,7 @@ import com.couchbase.client.java.kv.ReplaceOptions
 import com.couchbase.client.java.query.ReactiveQueryResult
 import com.zv.brokerageservice.domain.AggregateRoot
 import com.zv.brokerageservice.domain.DomainRepository
+import com.zv.brokerageservice.infrastructure.messaging.KafkaDomainEventPublisher
 import kotlinx.coroutines.reactive.awaitFirstOrNull
 import kotlinx.coroutines.reactive.awaitSingle
 import org.slf4j.Logger
@@ -17,12 +18,14 @@ import reactor.util.retry.Retry
 import java.time.Duration
 
 abstract class BaseRepositoryImpl<TId, TDocument : AggregateRoot<TDocument>>(
-    protected val cluster: ReactiveCluster,
-    protected val collection: ReactiveCollection,
+    private val cluster: ReactiveCluster,
+    private val collection: ReactiveCollection,
+    private val kafkaDomainEventPublisher: KafkaDomainEventPublisher,
     private val clazz: Class<TDocument>,
 ) : DomainRepository<TId, TDocument> {
 
 
+    abstract suspend fun map(getResult: GetResult): TDocument
     private val logger: Logger = LoggerFactory.getLogger(BaseRepositoryImpl::class.java)
 
     override suspend fun load(id: String): TDocument? {
@@ -38,8 +41,8 @@ abstract class BaseRepositoryImpl<TId, TDocument : AggregateRoot<TDocument>>(
                     return@onErrorResume Mono.error(it)
                 }
                 .awaitSingle()
-
-            return result.initializeAggregate(clazz)
+            logger.info("class = $clazz")
+            return map(result)
         } catch (ex: DocumentNotFoundException) {
             return null
         }
@@ -49,7 +52,6 @@ abstract class BaseRepositoryImpl<TId, TDocument : AggregateRoot<TDocument>>(
         if (document.domainEvents().isEmpty()) {
             return
         }
-        // todo - event ler burada publish edilecek
         val isNew = document.cas == null
         val id = document.id
 
@@ -64,6 +66,7 @@ abstract class BaseRepositoryImpl<TId, TDocument : AggregateRoot<TDocument>>(
             collection.replace(id, document, ReplaceOptions.replaceOptions().cas(document.cas!!))
                 .awaitFirstOrNull()
         }
+        kafkaDomainEventPublisher.publishForAggregate(document.domainEvents(), id)
     }
 
     override suspend fun delete(id: TId) {

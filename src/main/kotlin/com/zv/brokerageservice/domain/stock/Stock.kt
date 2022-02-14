@@ -5,10 +5,11 @@ import com.zv.brokerageservice.domain.DomainException
 import com.zv.brokerageservice.domain.event.ReservationCompleted
 import com.zv.brokerageservice.domain.event.ReservationRemovedBecauseOfCancellation
 import com.zv.brokerageservice.domain.event.ReservationRemovedBecauseOfSelling
-import com.zv.brokerageservice.domain.order.Order
+import com.zv.brokerageservice.domain.event.StockCreated
 
 class Stock private constructor(
     id: String,
+    private val productName: String,
     private val quantity: Int
 ) : AggregateRoot<Stock>(id) {
 
@@ -17,6 +18,17 @@ class Stock private constructor(
 
     companion object {
         const val TYPE = "Stock"
+        fun create(id: StockId, productName: String, quantity: Int): Stock {
+            val stock = Stock(id.value, productName, quantity)
+            stock.registerEvent(StockCreated(stock.id))
+            return stock
+        }
+
+        fun from(id: String, productName: String, quantity: Int, reservations: List<Reservation>): Stock {
+            val stock = Stock(id, productName, quantity)
+            stock.reservations = reservations.toMutableList()
+            return stock
+        }
     }
 
     var reservations = mutableListOf<Reservation>()

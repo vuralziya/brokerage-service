@@ -92,3 +92,8 @@ data class OrderCancelled(val orderId: String) : DomainEvent() {
     override val type: EventType
         get() = EventType.ORDER_CANCELLED
 }
+
+data class StockCreated(val stockId: String) : DomainEvent() {
+    override val type: EventType
+        get() = EventType.STOCK_CREATED
+}

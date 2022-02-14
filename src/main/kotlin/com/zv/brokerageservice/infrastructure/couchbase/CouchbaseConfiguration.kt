@@ -20,8 +20,7 @@ import java.time.Duration
 @Configuration
 @EnableConfigurationProperties(CouchbaseProperties::class)
 class CouchbaseConfiguration(
-    private val couchbaseProperties: CouchbaseProperties,
-    private val meterRegistry: MeterRegistry
+    private val couchbaseProperties: CouchbaseProperties
 ) {
 
     @Primary

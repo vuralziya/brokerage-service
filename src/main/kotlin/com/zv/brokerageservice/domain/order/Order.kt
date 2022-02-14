@@ -27,11 +27,23 @@ class Order private constructor(
             order.registerEvent(OrderCreatedAsInitial(order.id))
             return order
         }
+
+        fun from(
+            id: String,
+            userId: String,
+            item: Item,
+            status: String
+        ): Order {
+            return Order(id, userId, item, OrderStatus.valueOf(status))
+        }
     }
 
     fun complete() {
         if (status == OrderStatus.COMPLETED) {
             return
+        }
+        if (status != OrderStatus.INITIAL) {
+            throw DomainException("oder.status.should.be.initial.in.order.to.complete")
         }
         status = OrderStatus.COMPLETED
         registerEvent(OrderCompleted(id))
@@ -48,6 +60,9 @@ class Order private constructor(
     fun completeSelling() {
         if (status == OrderStatus.SOLD) {
             return
+        }
+        if (status != OrderStatus.SELLING) {
+            throw DomainException("oder.status.should.be.selling.in.order.to.sell")
         }
         status = OrderStatus.SOLD
         registerEvent(OrderSold(id))
