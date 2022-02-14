@@ -20,12 +20,14 @@ class CouchbaseOrderRepository(
     override suspend fun map(getResult: GetResult): Order {
         val jsonObject = getResult.contentAsObject()
         val itemObject = jsonObject.getObject("item")
-        val item = Item(jsonObject.getString("stockId"), jsonObject.getInt("quantity"))
-        return Order.from(
+        val item = Item(itemObject.getString("stockId"), itemObject.getInt("quantity"))
+        val order = Order.from(
             jsonObject.getString("id"),
             jsonObject.getString("userId"),
             item,
             jsonObject.getString("status")
         )
+        order.cas = getResult.cas()
+        return order
     }
 }

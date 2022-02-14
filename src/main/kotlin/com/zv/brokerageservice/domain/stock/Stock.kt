@@ -9,8 +9,8 @@ import com.zv.brokerageservice.domain.event.StockCreated
 
 class Stock private constructor(
     id: String,
-    private val productName: String,
-    private val quantity: Int
+    val productName: String,
+    val quantity: Int
 ) : AggregateRoot<Stock>(id) {
 
     override val type: String

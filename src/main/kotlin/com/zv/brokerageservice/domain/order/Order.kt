@@ -8,7 +8,7 @@ class Order private constructor(
     id: String,
     val userId: String,
     val item: Item,
-    private var status: OrderStatus = OrderStatus.INITIAL
+    var status: OrderStatus = OrderStatus.INITIAL
 ) : AggregateRoot<Order>(id) {
 
     override val type: String

@@ -5,19 +5,16 @@ set -m
 
 /entrypoint.sh couchbase-server &
 
-sleep 15
+sleep 30
 
 # Setup index and memory quota
-curl -v -X POST http://brokerage-service_db_1:8091/pools/default -d memoryQuota=300 -d indexMemoryQuota=300
+curl -v -X POST http://brokerage-service_db_1:8091/pools/default -d memoryQuota=300
 
 # Setup services
-curl -v http://brokerage-service_db_1:8091/node/controller/setupServices -d services=kv%2Cn1ql%2Cindex
+curl -v http://brokerage-service_db_1:8091/node/controller/setupServices -d services=kv
 
 # Setup credentials
 curl -v http://brokerage-service_db_1:8091/settings/web -d port=8091 -d username=Administrator -d password=password
-
-# Setup Memory Optimized Indexes
-curl -i -u Administrator:password -X POST http://brokerage-service_db_1:8091/settings/indexes -d 'storageMode=memory_optimized'
 
 curl -v -u Administrator:password -X POST http://brokerage-service_db_1:8091/pools/default/buckets -d name=Brokerage -d ramQuotaMB=256
 
@@ -25,7 +22,7 @@ echo "Type: $TYPE"
 
 if [ "$TYPE" = "WORKER" ]; then
   echo "Sleeping ..."
-  sleep 15
+  sleep 30
 
   #IP=`hostname -s`
   IP=`hostname -I | cut -d ' ' -f1`

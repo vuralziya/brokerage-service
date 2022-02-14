@@ -20,5 +20,6 @@ class AddOrderToUserAsyncHandler(
         val userId = order.userId
         val user = useRepository.load(userId) ?: throw NotFoundException("user.must.not.be.null", userId)
         user.addOrder(orderId)
+        useRepository.save(user)
     }
 }

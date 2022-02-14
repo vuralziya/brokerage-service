@@ -6,7 +6,8 @@ class StockId(val value: String) {
 
     companion object {
         fun create(): StockId {
-            return StockId(UUID.randomUUID().toString())
+            val value = "${Stock.TYPE}:${UUID.randomUUID()}"
+            return StockId(value)
         }
     }
 

@@ -17,7 +17,7 @@ class CouchbaseUserRepository(
 ) : BaseRepositoryImpl<UserId, User>(cluster, collection, kafkaDomainEventPublisher, User::class.java), UserRepository {
     override suspend fun map(getResult: GetResult): User {
         val jsonObject = getResult.contentAsObject()
-        return User.from(
+        val user = User.from(
             jsonObject.getString("id"),
             jsonObject.getString("name"),
             jsonObject.getString("lastName"),
@@ -25,5 +25,7 @@ class CouchbaseUserRepository(
             jsonObject.getString("citizen"),
             jsonObject.getArray("orders").map { it.toString() }.toList()
         )
+        user.cas = getResult.cas()
+        return user
     }
 }

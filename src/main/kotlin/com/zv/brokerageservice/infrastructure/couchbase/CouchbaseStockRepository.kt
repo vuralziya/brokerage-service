@@ -21,12 +21,14 @@ class CouchbaseStockRepository(
     override suspend fun map(getResult: GetResult): Stock {
         val jsonObject = getResult.contentAsObject()
         val reservations = getReservations(jsonObject)
-        return Stock.from(
+        val stock = Stock.from(
             jsonObject.getString("id"),
             jsonObject.getString("productName"),
             jsonObject.getInt("quantity"),
             reservations
         )
+        stock.cas = getResult.cas()
+        return stock
     }
 
     private suspend fun getReservations(jsonObject: JsonObject): List<Reservation> {

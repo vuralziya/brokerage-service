@@ -6,7 +6,8 @@ class OrderId(val value: String) {
 
     companion object {
         fun create(): OrderId {
-            return OrderId(UUID.randomUUID().toString())
+            val value = "${Order.TYPE}:${UUID.randomUUID()}"
+            return OrderId(value)
         }
     }
 
