@@ -23,6 +23,7 @@ class UserController(private val commandBus: CommandBus) {
                 request.firstName,
                 request.lastName,
                 request.identityNumber,
+                request.email,
                 request.citizen
             )
         )

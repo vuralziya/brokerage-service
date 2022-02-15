@@ -25,23 +25,6 @@ internal class OrderTest {
     }
 
     @Test
-    fun it_should_create_order() {
-        //given
-        val orderId = OrderId.create()
-        val userId = "test"
-        val stockId = "testStock"
-        val quantity = 1
-        val item = Item(stockId, quantity)
-
-        //when
-        val order = Order.from(orderId.value, userId, item, "SELLING")
-
-        //then
-        assertThat(order.id).isEqualTo(orderId.value)
-        assertThat(order.item.stockId).isEqualTo(stockId)
-    }
-
-    @Test
     fun it_should_complete_order() {
         //given
         val order = createTestOrder("INITIAL")
@@ -50,8 +33,8 @@ internal class OrderTest {
         order.complete()
 
         //then
-        assertThat(order.domainEvents().size).isEqualTo(1)
-        assertThat(order.domainEvents().first().type).isEqualTo(EventType.ORDER_COMPLETED)
+        assertThat(order.domainEvents().size).isEqualTo(2)
+        assertThat(order.domainEvents().map { it.type }).contains(EventType.ORDER_COMPLETED)
     }
 
     @Test
@@ -63,7 +46,7 @@ internal class OrderTest {
         order.complete()
 
         //then
-        assertThat(order.domainEvents().size).isEqualTo(0)
+        assertThat(order.domainEvents().size).isEqualTo(1)
     }
 
     @Test
@@ -107,7 +90,8 @@ internal class OrderTest {
         val userId = "test"
         val stockId = "testStock"
         val quantity = 1
-        val item = Item(stockId, quantity)
-        return Order.from(orderId.value, userId, item, status)
+        val order = Order.create(orderId, userId, stockId, quantity)
+        order.status = OrderStatus.valueOf(status)
+        return order
     }
 }

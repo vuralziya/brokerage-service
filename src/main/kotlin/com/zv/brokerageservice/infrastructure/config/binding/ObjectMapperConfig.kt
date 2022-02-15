@@ -36,6 +36,10 @@ class ObjectMapperConfig {
     }
 
     @Bean
+    fun objectMapper(): ObjectMapper {
+        return createObjectMapperWithDefaults()
+    }
+    @Bean
     fun webClientObjectMapper(): ObjectMapper {
         return createObjectMapperWithDefaults()
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)

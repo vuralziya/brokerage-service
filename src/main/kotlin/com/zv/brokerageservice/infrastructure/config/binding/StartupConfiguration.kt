@@ -2,7 +2,7 @@ package com.zv.brokerageservice.infrastructure.config.binding
 
 import com.trendyol.kediatr.CommandBus
 import com.zv.brokerageservice.application.command.CreateStock
-import com.zv.brokerageservice.infrastructure.messaging.TopicConfig
+import com.zv.brokerageservice.infrastructure.messaging.kafka.TopicConfig
 import kotlinx.coroutines.runBlocking
 import org.apache.kafka.clients.admin.AdminClient
 import org.apache.kafka.clients.admin.AdminClientConfig

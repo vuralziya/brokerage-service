@@ -8,7 +8,7 @@ import com.couchbase.client.java.kv.ReplaceOptions
 import com.couchbase.client.java.query.ReactiveQueryResult
 import com.zv.brokerageservice.domain.AggregateRoot
 import com.zv.brokerageservice.domain.DomainRepository
-import com.zv.brokerageservice.infrastructure.messaging.KafkaDomainEventPublisher
+import com.zv.brokerageservice.infrastructure.messaging.kafka.KafkaDomainEventPublisher
 import kotlinx.coroutines.reactive.awaitFirstOrNull
 import kotlinx.coroutines.reactive.awaitSingle
 import org.slf4j.Logger

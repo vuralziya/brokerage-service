@@ -1,4 +1,4 @@
-package com.zv.brokerageservice.infrastructure.messaging
+package com.zv.brokerageservice.infrastructure.messaging.kafka
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 

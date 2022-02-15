@@ -50,6 +50,12 @@ kafka:
       topic: ${kafka.topicPrefix}.sell.order.request.received
     cancel-order-request-received-event:
       topic: ${kafka.topicPrefix}.cancel.order.request.received
+    order-cancelling-started-event:
+      topic: ${kafka.topicPrefix}.order.cancelling.started
+    reservation-removed-because-of-cancellation-event:
+      topic: ${kafka.topicPrefix}.reservation.removed.because.of.cancellation
+    order-cancelled-event:
+      topic: ${kafka.topicPrefix}.order.cancelled
     order-created-as-initial-event:
       topic: ${kafka.topicPrefix}.order.created.as.initial
     order-added-to-user-event:

@@ -8,7 +8,7 @@ import com.zv.brokerageservice.infrastructure.api.request.BuyOrderRequest
 import com.zv.brokerageservice.infrastructure.api.request.CancelOrderRequest
 import com.zv.brokerageservice.infrastructure.api.request.SellOrderRequest
 import com.zv.brokerageservice.infrastructure.api.response.OrderDto
-import com.zv.brokerageservice.infrastructure.messaging.KafkaDomainEventPublisher
+import com.zv.brokerageservice.infrastructure.messaging.kafka.KafkaDomainEventPublisher
 import com.zv.brokerageservice.infrastructure.query.RetrieveOrder
 import com.zv.brokerageservice.infrastructure.query.RetrieveOrdersByUserId
 import org.springframework.http.HttpStatus

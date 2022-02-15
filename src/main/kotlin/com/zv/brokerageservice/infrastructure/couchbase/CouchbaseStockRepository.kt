@@ -7,7 +7,7 @@ import com.couchbase.client.java.kv.GetResult
 import com.zv.brokerageservice.domain.stock.Reservation
 import com.zv.brokerageservice.domain.stock.Stock
 import com.zv.brokerageservice.domain.stock.StockRepository
-import com.zv.brokerageservice.infrastructure.messaging.KafkaDomainEventPublisher
+import com.zv.brokerageservice.infrastructure.messaging.kafka.KafkaDomainEventPublisher
 import org.springframework.stereotype.Repository
 
 @Repository

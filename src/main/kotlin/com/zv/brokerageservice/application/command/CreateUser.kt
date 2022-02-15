@@ -12,6 +12,7 @@ data class CreateUser(
     val firstName: String,
     val lastName: String,
     val identityNumber: Long,
+    val email: String,
     val citizen: String
 ) : Command
 
@@ -24,7 +25,7 @@ class CreateUserAsyncHandler(private val userRepository: UserRepository) : Async
         if (user != null) {
             throw ApplicationException("user.already.exists", userId.value)
         }
-        val newUser = User.create(firstName, lastName, identityNumber, citizen)
+        val newUser = User.create(firstName, lastName, identityNumber, email, citizen)
         userRepository.save(newUser)
     }
 }

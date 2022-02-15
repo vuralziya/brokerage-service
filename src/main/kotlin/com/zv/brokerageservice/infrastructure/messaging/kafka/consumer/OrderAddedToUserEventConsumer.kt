@@ -1,9 +1,9 @@
-package com.zv.brokerageservice.infrastructure.messaging.consumer
+package com.zv.brokerageservice.infrastructure.messaging.kafka.consumer
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.trendyol.kediatr.CommandBus
 import com.zv.brokerageservice.application.notification.OrderAddedToUser
-import com.zv.brokerageservice.infrastructure.messaging.KafkaConsumerConfiguration
+import com.zv.brokerageservice.infrastructure.messaging.kafka.KafkaConsumerConfiguration
 import kotlinx.coroutines.runBlocking
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.slf4j.LoggerFactory

@@ -6,7 +6,7 @@ import com.couchbase.client.java.kv.GetResult
 import com.zv.brokerageservice.domain.user.User
 import com.zv.brokerageservice.domain.user.UserId
 import com.zv.brokerageservice.domain.user.UserRepository
-import com.zv.brokerageservice.infrastructure.messaging.KafkaDomainEventPublisher
+import com.zv.brokerageservice.infrastructure.messaging.kafka.KafkaDomainEventPublisher
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -22,6 +22,7 @@ class CouchbaseUserRepository(
             jsonObject.getString("name"),
             jsonObject.getString("lastName"),
             jsonObject.getLong("identityNumber"),
+            jsonObject.getString("email"),
             jsonObject.getString("citizen"),
             jsonObject.getArray("orders").map { it.toString() }.toList()
         )

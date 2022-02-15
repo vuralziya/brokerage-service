@@ -1,12 +1,8 @@
-package com.zv.brokerageservice.infrastructure.messaging
+package com.zv.brokerageservice.infrastructure.messaging.kafka
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.apache.kafka.clients.consumer.ConsumerConfig
-import org.apache.kafka.clients.consumer.ConsumerRecord
-import org.apache.kafka.common.TopicPartition
-import org.apache.kafka.common.header.Headers
 import org.apache.kafka.common.serialization.StringDeserializer
-import org.slf4j.LoggerFactory
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -15,11 +11,7 @@ import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory
 import org.springframework.kafka.core.ConsumerFactory
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory
 import org.springframework.kafka.core.KafkaTemplate
-import org.springframework.kafka.listener.DeadLetterPublishingRecoverer
-import org.springframework.kafka.listener.SeekToCurrentErrorHandler
 import org.springframework.kafka.support.converter.StringJsonMessageConverter
-import org.springframework.util.backoff.FixedBackOff
-import java.nio.charset.StandardCharsets
 
 @EnableKafka
 @Configuration

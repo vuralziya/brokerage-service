@@ -4,14 +4,14 @@ import com.trendyol.kediatr.AsyncCommandHandler
 import com.trendyol.kediatr.Command
 import org.springframework.stereotype.Component
 
-data class NotifyUSerForCancellationCompletedSucces(val orderId: String) : Command
+data class NotifyUSerForCancellationCompletedSuccess(val orderId: String) : Command
 
 @Component
-class NotifyUSerForCancellationCompletedSuccesAsyncHandler :
-    AsyncCommandHandler<NotifyUSerForCancellationCompletedSucces> {
+class NotifyUSerForCancellationCompletedSuccessAsyncHandler :
+    AsyncCommandHandler<NotifyUSerForCancellationCompletedSuccess> {
 
-    override suspend fun handleAsync(command: NotifyUSerForCancellationCompletedSucces) {
-        TODO("notify user")
+    override suspend fun handleAsync(command: NotifyUSerForCancellationCompletedSuccess) {
+
     }
 }
 

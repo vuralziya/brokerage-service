@@ -7,7 +7,7 @@ import com.zv.brokerageservice.domain.order.Item
 import com.zv.brokerageservice.domain.order.Order
 import com.zv.brokerageservice.domain.order.OrderId
 import com.zv.brokerageservice.domain.order.OrderRepository
-import com.zv.brokerageservice.infrastructure.messaging.KafkaDomainEventPublisher
+import com.zv.brokerageservice.infrastructure.messaging.kafka.KafkaDomainEventPublisher
 import org.springframework.stereotype.Repository
 
 @Repository

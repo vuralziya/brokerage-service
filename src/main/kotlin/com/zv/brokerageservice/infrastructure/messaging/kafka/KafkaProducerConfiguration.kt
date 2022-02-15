@@ -1,4 +1,4 @@
-package com.zv.brokerageservice.infrastructure.messaging
+package com.zv.brokerageservice.infrastructure.messaging.kafka
 
 import org.apache.kafka.clients.producer.Producer
 import org.apache.kafka.clients.producer.ProducerConfig

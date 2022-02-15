@@ -1,4 +1,4 @@
-package com.zv.brokerageservice.infrastructure.messaging
+package com.zv.brokerageservice.infrastructure.messaging.kafka
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.context.annotation.Configuration
@@ -18,6 +18,18 @@ class SellOrderRequestReceivedEventTopicConfig : TopicConfig()
 @Configuration
 @ConfigurationProperties(prefix = "kafka.consumers.cancel-order-request-received-event")
 class CancelOrderRequestReceivedEventTopicConfig : TopicConfig()
+
+@Configuration
+@ConfigurationProperties(prefix = "kafka.consumers.order-cancelling-started-event")
+class OrderCancellingStartedEventTopicConfig : TopicConfig()
+
+@Configuration
+@ConfigurationProperties(prefix = "kafka.consumers.reservation-removed-because-of-cancellation-event")
+class ReservationRemovedBecauseOfCancellationEventTopicConfig : TopicConfig()
+
+@Configuration
+@ConfigurationProperties(prefix = "kafka.consumers.order-cancelled-event")
+class OrderCancelledEventTopicConfig : TopicConfig()
 
 @Configuration
 @ConfigurationProperties(prefix = "kafka.consumers.order-created-as-initial-event")

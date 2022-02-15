@@ -9,6 +9,7 @@ class User private constructor(
     val name: String,
     val lastName: String,
     val identityNumber: Long,
+    val email: String,
     val citizen: String
 ) : AggregateRoot<User>(id) {
 
@@ -24,13 +25,14 @@ class User private constructor(
             name: String,
             lastName: String,
             identityNumber: Long,
+            email: String,
             citizen: String
         ): User {
             val firstName = Name.create(name)
             val surName = Name.create(lastName)
             val userId = UserId.create(identityNumber, citizen)
             val id = userId.value
-            val user = User(id, firstName.value, surName.value, identityNumber, citizen)
+            val user = User(id, firstName.value, surName.value, identityNumber, email, citizen)
             user.registerEvent(UserCreated(id))
             return user
         }
@@ -40,10 +42,11 @@ class User private constructor(
             name: String,
             lastName: String,
             identityNumber: Long,
+            email: String,
             citizen: String,
             orders: List<String>
         ): User {
-            val user = User(id, name, lastName, identityNumber, citizen)
+            val user = User(id, name, lastName, identityNumber, email, citizen)
             user.orders = orders.toMutableList()
             return user
         }
