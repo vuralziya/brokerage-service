@@ -15,7 +15,7 @@ class UserId private constructor(val value: String) {
             return UserId("${citizen}_${identityNumber}")
         }
 
-        private fun isInRange(value: Long) = value.toString().length in 1..30
+        private fun isInRange(value: Long) = value.toString().length in 1..15
         private fun allCharsValid(value: String) = value.all {
             Character.isLetter(it) ||
                     Character.isWhitespace(it)

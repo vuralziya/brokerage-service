@@ -69,7 +69,7 @@ class Order private constructor(
     }
 
     fun cancel() {
-        if (status == OrderStatus.COMPLETED) {
+        if (status == OrderStatus.COMPLETED || status == OrderStatus.SOLD ) {
             throw DomainException("completed.orders.can.not.be.cancel")
         }
         status = OrderStatus.CANCELLING

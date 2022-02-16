@@ -12,14 +12,14 @@ data class AddOrderToUser(val orderId: String) : Command
 @Component
 class AddOrderToUserAsyncHandler(
     private val orderRepository: OrderRepository,
-    private val useRepository: UserRepository
+    private val userRepository: UserRepository
 ) : AsyncCommandHandler<AddOrderToUser> {
 
     override suspend fun handleAsync(command: AddOrderToUser) = with(command) {
         val order = orderRepository.load(orderId) ?: throw NotFoundException("order.must.not.be.null", orderId)
         val userId = order.userId
-        val user = useRepository.load(userId) ?: throw NotFoundException("user.must.not.be.null", userId)
+        val user = userRepository.load(userId) ?: throw NotFoundException("user.must.not.be.null", userId)
         user.addOrder(orderId)
-        useRepository.save(user)
+        userRepository.save(user)
     }
 }

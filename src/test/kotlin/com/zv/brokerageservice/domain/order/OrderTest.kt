@@ -38,6 +38,32 @@ internal class OrderTest {
     }
 
     @Test
+    fun it_should_sell_order() {
+        //given
+        val order = createTestOrder("COMPLETED")
+
+        //when
+        order.sell()
+
+        //then
+        assertThat(order.domainEvents().size).isEqualTo(2)
+        assertThat(order.domainEvents().map { it.type }).contains(EventType.ORDER_SELLING_STARTED)
+    }
+
+    @Test
+    fun it_should_complete_selling() {
+        //given
+        val order = createTestOrder("SELLING")
+
+        //when
+        order.completeSelling()
+
+        //then
+        assertThat(order.domainEvents().size).isEqualTo(2)
+        assertThat(order.domainEvents().map { it.type }).contains(EventType.ORDER_SOLD)
+    }
+
+    @Test
     fun it_should_return_if_status_already_completed() {
         //given
         val order = createTestOrder("COMPLETED")
@@ -83,6 +109,30 @@ internal class OrderTest {
 
         //then
         assertThat(throwable.message).isEqualTo("oder.status.should.be.selling.in.order.to.sell")
+    }
+
+    @Test
+    fun cancel_should_throw_exception_when_order_status_is_completed() {
+        //given
+        val order = createTestOrder("COMPLETED")
+
+        //when
+        val throwable = catchThrowable { order.cancel() }
+
+        //then
+        assertThat(throwable.message).isEqualTo("completed.orders.can.not.be.cancel")
+    }
+
+    @Test
+    fun cancel_should_throw_exception_when_status_is_completed() {
+        //given
+        val order = createTestOrder("COMPLETED")
+
+        //when
+        val throwable = catchThrowable { order.cancel() }
+
+        //then
+        assertThat(throwable.message).isEqualTo("completed.orders.can.not.be.cancel")
     }
 
     private fun createTestOrder(status: String): Order {

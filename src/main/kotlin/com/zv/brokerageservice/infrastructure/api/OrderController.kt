@@ -46,7 +46,7 @@ class OrderController(
         kafkaDomainEventPublisher.publish(CancelOrderRequestReceived(orderId))
     }
 
-    @GetMapping
+    @GetMapping("/{orderId}")
     suspend fun retrieveOrder(
         @PathVariable("orderId") orderId: String
     ): ResponseEntity<OrderDto> {
